@@ -1,0 +1,71 @@
+class CircularQueue {
+    private int[] queue;
+    private int front, rear, size, capacity;
+
+    CircularQueue(int capacity) {
+        this.capacity = capacity;
+        queue = new int[capacity];
+        front = size = 0;
+        rear = capacity - 1;
+    }
+
+    boolean isFull() {
+        return (size == capacity);
+    }
+
+    boolean isEmpty() {
+        return (size == 0);
+    }
+
+    void enqueue(int item) {
+        if (isFull()) {
+            System.out.println("Queue is full");
+            return;
+        }
+        rear = (rear + 1) % capacity;
+        queue[rear] = item;
+        size++;
+    }
+
+    int dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+            return Integer.MIN_VALUE;
+        }
+        int item = queue[front];
+        front = (front + 1) % capacity;
+        size--;
+        return item;
+    }
+
+    int front() {
+        if (isEmpty()) {
+            return Integer.MIN_VALUE;
+        }
+        return queue[front];
+    }
+
+    int rear() {
+        if (isEmpty()) {
+            return Integer.MIN_VALUE;
+        }
+        return queue[rear];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        CircularQueue queue = new CircularQueue(5);
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        queue.enqueue(4);
+        queue.enqueue(5);
+        System.out.println(queue.dequeue());
+        System.out.println(queue.front());
+        System.out.println(queue.rear());
+        queue.enqueue(6);
+        System.out.println(queue.front());
+        System.out.println(queue.rear());
+    }
+}
