@@ -1,0 +1,16 @@
+import java.util.TreeMap;
+import java.util.Map;
+
+public class TreeMapExample {
+    public static void main(String[] args) {
+        TreeMap<Integer, String> tm = new TreeMap<>();
+
+        tm.put(1, "One");
+        tm.put(2, "Two");
+        tm.put(3, "Three");
+
+        for (Map.Entry<Integer, String> entry : tm.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + " & Value: " + entry.getValue());
+        }
+    }
+}
