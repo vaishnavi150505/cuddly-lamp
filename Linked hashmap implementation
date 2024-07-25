@@ -1,0 +1,16 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LinkedHashMapExample {
+    public static void main(String[] args) {
+        LinkedHashMap<Integer, String> lhm = new LinkedHashMap<>();
+
+        lhm.put(1, "One");
+        lhm.put(2, "Two");
+        lhm.put(3, "Three");
+
+        for (Map.Entry<Integer, String> entry : lhm.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + " & Value: " + entry.getValue());
+        }
+    }
+}
