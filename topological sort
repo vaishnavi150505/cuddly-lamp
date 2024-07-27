@@ -1,0 +1,52 @@
+import java.util.*;
+
+public class TopologicalSort {
+    private final int vertices;
+    private final LinkedList<Integer>[] adjList;
+
+    public TopologicalSort(int vertices) {
+        this.vertices = vertices;
+        adjList = new LinkedList[vertices];
+        for (int i = 0; i < vertices; i++) {
+            adjList[i] = new LinkedList<>();
+        }
+    }
+
+    public void addEdge(int start, int end) {
+        adjList[start].add(end);
+    }
+
+    public void topologicalSortUtil(int vertex, boolean[] visited, Stack<Integer> stack) {
+        visited[vertex] = true;
+        for (Integer adj : adjList[vertex]) {
+            if (!visited[adj])
+                topologicalSortUtil(adj, visited, stack);
+        }
+        stack.push(vertex);
+    }
+
+    public void topologicalSort() {
+        Stack<Integer> stack = new Stack<>();
+        boolean[] visited = new boolean[vertices];
+        for (int i = 0; i < vertices; i++) {
+            if (!visited[i])
+                topologicalSortUtil(i, visited, stack);
+        }
+        while (!stack.isEmpty())
+            System.out.print(stack.pop() + " ");
+    }
+
+    public static void main(String[] args) {
+        TopologicalSort graph = new TopologicalSort(6);
+
+        graph.addEdge(5, 2);
+        graph.addEdge(5, 0);
+        graph.addEdge(4, 0);
+        graph.addEdge(4, 1);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 1);
+
+        System.out.println("Topological sort of the given graph:");
+        graph.topologicalSort();
+    }
+}
