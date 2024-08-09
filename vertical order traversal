@@ -1,0 +1,49 @@
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
+
+class BinaryTree {
+    Node root;
+
+    void verticalOrderTraversalUtil(Node node, int horizontalDistance, Map<Integer, Vector<Integer>> map) {
+        if (node == null) {
+            return;
+        }
+
+        Vector<Integer> vector = map.get(horizontalDistance);
+        if (vector == null) {
+            vector = new Vector<>();
+            map.put(horizontalDistance, vector);
+        }
+
+        vector.add(node.value);
+
+        verticalOrderTraversalUtil(node.left, horizontalDistance - 1, map);
+        verticalOrderTraversalUtil(node.right, horizontalDistance + 1, map);
+    }
+
+    void verticalOrderTraversal() {
+        Map<Integer, Vector<Integer>> map = new TreeMap<>();
+        verticalOrderTraversalUtil(root, 0, map);
+
+        for (Map.Entry<Integer, Vector<Integer>> entry : map.entrySet()) {
+            Vector<Integer> vector = entry.getValue();
+            for (Integer value : vector) {
+                System.out.print(value + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+
+        System.out.println("Vertical order traversal of binary tree is ");
+        tree.verticalOrderTraversal();
+    }
+}
