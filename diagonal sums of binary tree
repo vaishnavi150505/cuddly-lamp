@@ -1,0 +1,41 @@
+import java.util.Map;
+import java.util.TreeMap;
+
+class BinaryTree {
+    Node root;
+
+    void diagonalSumUtil(Node node, int diagonal, Map<Integer, Integer> map) {
+        if (node == null) {
+            return;
+        }
+
+        int sum = map.getOrDefault(diagonal, 0);
+        map.put(diagonal, sum + node.value);
+
+        diagonalSumUtil(node.left, diagonal + 1, map);
+        diagonalSumUtil(node.right, diagonal, map);
+    }
+
+    void diagonalSum() {
+        Map<Integer, Integer> map = new TreeMap<>();
+        diagonalSumUtil(root, 0, map);
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            System.out.println("Diagonal " + entry.getKey() + " has sum " + entry.getValue());
+        }
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.right.left = new Node(6);
+        tree.root.right.right = new Node(7);
+
+        System.out.println("Diagonal sums of binary tree are ");
+        tree.diagonalSum();
+    }
+}
