@@ -1,0 +1,49 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
+class BinaryTree {
+    Node root;
+
+    void diagonalTraversalUtil(Node node, int diagonal, Map<Integer, Vector<Integer>> map) {
+        if (node == null) {
+            return;
+        }
+
+        Vector<Integer> vector = map.get(diagonal);
+        if (vector == null) {
+            vector = new Vector<>();
+            map.put(diagonal, vector);
+        }
+
+        vector.add(node.value);
+
+        diagonalTraversalUtil(node.left, diagonal + 1, map);
+        diagonalTraversalUtil(node.right, diagonal, map);
+    }
+
+    void diagonalTraversal() {
+        Map<Integer, Vector<Integer>> map = new HashMap<>();
+        diagonalTraversalUtil(root, 0, map);
+
+        for (Map.Entry<Integer, Vector<Integer>> entry : map.entrySet()) {
+            Vector<Integer> vector = entry.getValue();
+            for (Integer value : vector) {
+                System.out.print(value + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+
+        System.out.println("Diagonal traversal of binary tree is ");
+        tree.diagonalTraversal();
+    }
+}
