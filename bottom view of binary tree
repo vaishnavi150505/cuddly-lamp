@@ -1,0 +1,63 @@
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Queue;
+import java.util.LinkedList;
+
+class BinaryTree {
+    Node root;
+
+    class Pair {
+        int horizontalDistance;
+        Node node;
+
+        Pair(int hd, Node n) {
+            horizontalDistance = hd;
+            node = n;
+        }
+    }
+
+    void bottomView() {
+        if (root == null) {
+            return;
+        }
+
+        Map<Integer, Integer> map = new TreeMap<>();
+        Queue<Pair> queue = new LinkedList<>();
+
+        queue.add(new Pair(0, root));
+
+        while (!queue.isEmpty()) {
+            Pair temp = queue.poll();
+            int hd = temp.horizontalDistance;
+            Node node = temp.node;
+
+            map.put(hd, node.value);
+
+            if (node.left != null) {
+                queue.add(new Pair(hd - 1, node.left));
+            }
+
+            if (node.right != null) {
+                queue.add(new Pair(hd + 1, node.right));
+            }
+        }
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            System.out.print(entry.getValue() + " ");
+        }
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.right.left = new Node(6);
+        tree.root.right.right = new Node(7);
+
+        System.out.println("Bottom view of binary tree is ");
+        tree.bottomView();
+    }
+}
