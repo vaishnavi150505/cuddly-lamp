@@ -1,0 +1,45 @@
+import java.util.Map;
+import java.util.TreeMap;
+
+class BinaryTree {
+    Node root;
+
+    void verticalSumUtil(Node node, int hd, Map<Integer, Integer> map) {
+        if (node == null) {
+            return;
+        }
+
+        int prevSum = (map.get(hd) == null) ? 0 : map.get(hd);
+        map.put(hd, prevSum + node.value);
+
+        verticalSumUtil(node.left, hd - 1, map);
+        verticalSumUtil(node.right, hd + 1, map);
+    }
+
+    void verticalSum() {
+        if (root == null) {
+            return;
+        }
+
+        Map<Integer, Integer> map = new TreeMap<>();
+        verticalSumUtil(root, 0, map);
+
+        System.out.println("Vertical sums of binary tree:");
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            System.out.println("Vertical line " + entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.right.left = new Node(6);
+        tree.root.right.right = new Node(7);
+
+        tree.verticalSum();
+    }
+}
