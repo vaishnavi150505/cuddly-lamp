@@ -1,0 +1,51 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+class BinaryTree {
+    Node root;
+
+    String serialize(Node root) {
+        if (root == null) {
+            return "null,";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(root.value).append(",");
+        sb.append(serialize(root.left));
+        sb.append(serialize(root.right));
+        return sb.toString();
+    }
+
+    Node deserialize(Queue<String> nodes) {
+        String val = nodes.poll();
+        if (val.equals("null")) {
+            return null;
+        }
+        Node node = new Node(Integer.parseInt(val));
+        node.left = deserialize(nodes);
+        node.right = deserialize(nodes);
+        return node;
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.right.left = new Node(6);
+        tree.root.right.right = new Node(7);
+
+        BinaryTree newTree = new BinaryTree();
+        String serialized = tree.serialize(tree.root);
+        System.out.println("Serialized tree: " + serialized);
+
+        Queue<String> nodes = new LinkedList<>();
+        for (String node : serialized.split(",")) {
+            nodes.add(node);
+        }
+
+        newTree.root = tree.deserialize(nodes);
+        System.out.println("Tree deserialized.");
+    }
+}
