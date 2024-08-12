@@ -1,0 +1,61 @@
+class BinaryTree {
+    Node root;
+
+    Node findLCA(Node node, int n1, int n2) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.value == n1 || node.value == n2) {
+            return node;
+        }
+
+        Node leftLCA = findLCA(node.left, n1, n2);
+        Node rightLCA = findLCA(node.right, n1, n2);
+
+        if (leftLCA != null && rightLCA != null) {
+            return node;
+        }
+
+        return (leftLCA != null) ? leftLCA : rightLCA;
+    }
+
+    int findLevel(Node node, int key, int level) {
+        if (node == null) {
+            return -1;
+        }
+        if (node.value == key) {
+            return level;
+        }
+
+        int left = findLevel(node.left, key, level + 1);
+        if (left == -1) {
+            return findLevel(node.right, key, level + 1);
+        }
+        return left;
+    }
+
+    int findDistance(int n1, int n2) {
+        Node lca = findLCA(root, n1, n2);
+        int d1 = findLevel(lca, n1, 0);
+        int d2 = findLevel(lca, n2, 0);
+        return d1 + d2;
+    }
+
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.right.left = new Node(6);
+        tree.root.right.right = new Node(7);
+
+        int distance = tree.findDistance(4, 5);
+        System.out.println("Distance between 4 and 5 is " + distance);
+
+        distance = tree.findDistance(4, 6);
+        System.out.println("Distance between 4 and 6 is " + distance);
+    }
+}
